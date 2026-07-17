@@ -36,8 +36,8 @@
       <div class="flex flex-wrap gap-2 mb-10">
         @for(PeerInfo peer : registeredPeers)
           <span class="px-3 py-1 text-sm border border-gray-200 rounded-full text-gray-700">
-            ${peer.peerId()}
-            <span class="ml-2 text-xs text-gray-400">TCP: ${peer.canCreateTCPConnections()}</span>
+            ${peer.getPeerId()}
+            <span class="ml-2 text-xs text-gray-400">TCP: ${peer.isCanCreateTCPConnections()}</span>
           </span>
         @endfor
       </div>
@@ -58,9 +58,9 @@
         <tbody class="divide-y divide-gray-100">
           @for(ConnectionRequestInfo req : connectionRequests)
             <tr>
-              <td class="py-2 pr-6">${req.sourcePeerId()}</td>
-              <td class="py-2 pr-6">${req.targetPeerId()}</td>
-              <td class="py-2 text-gray-500">${req.timeoutMs()}</td>
+              <td class="py-2 pr-6">${req.getSourcePeerId()}</td>
+              <td class="py-2 pr-6">${req.getTargetPeerId()}</td>
+              <td class="py-2 text-gray-500">${req.getTimeoutMs()}</td>
             </tr>
           @endfor
         </tbody>
@@ -84,13 +84,13 @@
         <tbody class="divide-y divide-gray-100">
           @for(DataSessionInfo session : dataSessions)
             <tr>
-              <td class="py-2 pr-6">${session.sourcePeerId()}</td>
-              <td class="py-2 pr-6">${session.targetPeerId()}</td>
-              <td class="py-2 pr-6 text-gray-500">${time(session.startedAt())}</td>
+              <td class="py-2 pr-6">${session.getSourcePeerId()}</td>
+              <td class="py-2 pr-6">${session.getTargetPeerId()}</td>
+              <td class="py-2 pr-6 text-gray-500">${time(session.getStartedAt())}</td>
               <td class="py-2 pr-6 text-gray-500">
-                @if(session.endedAt() != null)${time(session.endedAt())}@else—@endif
+                @if(session.getEndedAt() != null)${time(session.getEndedAt())}@else—@endif
               </td>
-              <td class="py-2 text-gray-500">${session.timeoutMs()}</td>
+              <td class="py-2 text-gray-500">${session.getTimeoutMs()}</td>
             </tr>
           @endfor
         </tbody>

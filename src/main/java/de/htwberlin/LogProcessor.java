@@ -3,6 +3,7 @@ package de.htwberlin;
 import de.htwberlin.model.ConnectionRequestInfo;
 import de.htwberlin.model.DataSessionInfo;
 import de.htwberlin.model.PeerInfo;
+import de.htwberlin.persistence.EntityManagerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class LogProcessor {
     private final ExecutorService executorService;
     private final InputStream standardInputStream;
     private final InputStream errorInputStream;
+    private final EntityManagerFactory emf;
 
     public void run() throws ExecutionException, InterruptedException {
         System.out.println("processor: run");
@@ -54,15 +56,15 @@ public class LogProcessor {
         switch (eventName) {
             case "REGISTER" -> {
                 PeerInfo peerInfo = ModelBuilder.buildPeerInfo(line);
-                System.out.println(peerInfo);
+                emf.persist(peerInfo);
             }
             case "CONNECTION_REQUEST" -> {
                 ConnectionRequestInfo requestInfo = ModelBuilder.buildConnectionRequestInfo(line);
-                System.out.println(requestInfo);
+                emf.persist(requestInfo);
             }
             case "START_DATA_SESSION" -> {
                 DataSessionInfo sessionInfo = ModelBuilder.buildDataSessionInfo(line);
-                System.out.println(sessionInfo);
+                emf.persist(sessionInfo);
             }
             default -> System.out.println("Unkown Event: " + line);
         }
@@ -82,9 +84,10 @@ public class LogProcessor {
         return line.substring(startOffset, endOffset);
     }
 
-    public LogProcessor(InputStream standardInputStream, InputStream errorInputStream) {
+    public LogProcessor(InputStream standardInputStream, InputStream errorInputStream, EntityManagerFactory emf) {
         this.executorService = Executors.newFixedThreadPool(2);
         this.standardInputStream = standardInputStream;
         this.errorInputStream = errorInputStream;
+        this.emf = emf;
     }
 }
