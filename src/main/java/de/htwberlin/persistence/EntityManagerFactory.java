@@ -1,8 +1,8 @@
 package de.htwberlin.persistence;
 
-import de.htwberlin.model.ConnectionRequestInfo;
-import de.htwberlin.model.DataSessionInfo;
-import de.htwberlin.model.PeerInfo;
+import de.htwberlin.model.ConnectionRequest;
+import de.htwberlin.model.StartDataSession;
+import de.htwberlin.model.Register;
 import de.htwberlin.processor.MetricsRepository;
 import jakarta.persistence.Persistence;
 
@@ -32,23 +32,23 @@ public class EntityManagerFactory implements AutoCloseable, MetricsRepository {
     }
 
     @Override
-    public List<PeerInfo> findAllPeerInfos() {
+    public List<Register> findAllPeerInfos() {
         try (var em = emf.createEntityManager()) {
-            return em.createQuery("FROM PeerInfo", PeerInfo.class).getResultList();
+            return em.createQuery("FROM PeerInfo", Register.class).getResultList();
         }
     }
 
     @Override
-    public List<ConnectionRequestInfo> findAllConnectionRequests() {
+    public List<ConnectionRequest> findAllConnectionRequests() {
         try (var em = emf.createEntityManager()) {
-            return em.createQuery("FROM ConnectionRequestInfo", ConnectionRequestInfo.class).getResultList();
+            return em.createQuery("FROM ConnectionRequestInfo", ConnectionRequest.class).getResultList();
         }
     }
 
     @Override
-    public List<DataSessionInfo> findAllDataSessions() {
+    public List<StartDataSession> findAllDataSessions() {
         try (var em = emf.createEntityManager()) {
-            return em.createQuery("FROM DataSessionInfo", DataSessionInfo.class).getResultList();
+            return em.createQuery("FROM DataSessionInfo", StartDataSession.class).getResultList();
         }
     }
 

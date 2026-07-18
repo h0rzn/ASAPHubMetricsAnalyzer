@@ -1,8 +1,8 @@
 package de.htwberlin.processor;
 
-import de.htwberlin.model.ConnectionRequestInfo;
-import de.htwberlin.model.DataSessionInfo;
-import de.htwberlin.model.PeerInfo;
+import de.htwberlin.model.ConnectionRequest;
+import de.htwberlin.model.Register;
+import de.htwberlin.model.StartDataSession;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,15 +55,15 @@ public class LogProcessor {
 
         switch (eventName) {
             case "REGISTER" -> {
-                PeerInfo peerInfo = ModelBuilder.buildPeerInfo(line);
+                Register peerInfo = ModelBuilder.buildPeerInfo(line);
                 repository.persist(peerInfo);
             }
             case "CONNECTION_REQUEST" -> {
-                ConnectionRequestInfo requestInfo = ModelBuilder.buildConnectionRequestInfo(line);
+                ConnectionRequest requestInfo = ModelBuilder.buildConnectionRequestInfo(line);
                 repository.persist(requestInfo);
             }
             case "START_DATA_SESSION" -> {
-                DataSessionInfo sessionInfo = ModelBuilder.buildDataSessionInfo(line);
+                StartDataSession sessionInfo = ModelBuilder.buildDataSessionInfo(line);
                 repository.persist(sessionInfo);
             }
             default -> System.out.println("Unkown Event: " + line);

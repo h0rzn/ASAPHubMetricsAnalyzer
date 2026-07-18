@@ -1,8 +1,8 @@
 package de.htwberlin.processor;
 
-import de.htwberlin.model.ConnectionRequestInfo;
-import de.htwberlin.model.DataSessionInfo;
-import de.htwberlin.model.PeerInfo;
+import de.htwberlin.model.ConnectionRequest;
+import de.htwberlin.model.StartDataSession;
+import de.htwberlin.model.Register;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -30,17 +30,17 @@ class LogProcessorPersistenceTest {
         }
 
         @Override
-        public List<PeerInfo> findAllPeerInfos() {
+        public List<Register> findAllPeerInfos() {
             return List.of();
         }
 
         @Override
-        public List<ConnectionRequestInfo> findAllConnectionRequests() {
+        public List<ConnectionRequest> findAllConnectionRequests() {
             return List.of();
         }
 
         @Override
-        public List<DataSessionInfo> findAllDataSessions() {
+        public List<StartDataSession> findAllDataSessions() {
             return List.of();
         }
     }
@@ -71,18 +71,18 @@ class LogProcessorPersistenceTest {
     @Test
     void register_persistsPeerInfo() throws Exception {
         var repo = runWith("[REGISTER] peerId=abc; canCreateTCPConnections=true [/REGISTER]");
-        assertInstanceOf(PeerInfo.class, repo.persisted.getFirst());
+        assertInstanceOf(Register.class, repo.persisted.getFirst());
     }
 
     @Test
     void connectionRequest_persistsConnectionRequestInfo() throws Exception {
         var repo = runWith("[CONNECTION_REQUEST] sourcePeerId=alice; targetPeerId=bob; timeoutMs=5000 [/CONNECTION_REQUEST]");
-        assertInstanceOf(ConnectionRequestInfo.class, repo.persisted.getFirst());
+        assertInstanceOf(ConnectionRequest.class, repo.persisted.getFirst());
     }
 
     @Test
     void startDataSession_persistsDataSessionInfo() throws Exception {
         var repo = runWith("[START_DATA_SESSION] sourcePeerId=alice; targetPeerId=bob; timeoutMs=3000; startedAt=1000; endedAt=2000 [/START_DATA_SESSION]");
-        assertInstanceOf(DataSessionInfo.class, repo.persisted.getFirst());
+        assertInstanceOf(StartDataSession.class, repo.persisted.getFirst());
     }
 }

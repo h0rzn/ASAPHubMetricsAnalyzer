@@ -5,9 +5,9 @@
                                   https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
     <persistence-unit name="hub-metrics-persistence-unit">
-        <class>de.htwberlin.model.ConnectionRequestInfo</class>
-        <class>de.htwberlin.model.PeerInfo</class>
-        <class>de.htwberlin.model.DataSessionInfo</class>
+        <class>de.htwberlin.model.ConnectionRequest</class>
+        <class>de.htwberlin.model.Register</class>
+        <class>de.htwberlin.model.StartDataSession</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:./data/hub_metrics.db"/>

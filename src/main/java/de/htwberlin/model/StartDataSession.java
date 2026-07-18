@@ -6,7 +6,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "data_session_info")
-public class DataSessionInfo {
+public class StartDataSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,9 +21,9 @@ public class DataSessionInfo {
 
     private Instant endedAt;
 
-    public DataSessionInfo() {}
+    public StartDataSession() {}
 
-    public DataSessionInfo(
+    public StartDataSession(
             String sourcePeerId,
             String targetPeerId,
             int timeoutMs,

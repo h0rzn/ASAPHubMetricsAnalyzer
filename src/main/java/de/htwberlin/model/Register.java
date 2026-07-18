@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "peer_info")
-public class PeerInfo {
+public class Register {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,9 +12,9 @@ public class PeerInfo {
     private String peerId;
     private boolean canCreateTCPConnections;
 
-    public PeerInfo() {}
+    public Register() {}
 
-    public PeerInfo(String peerId, boolean canCreateTCPConnections) {
+    public Register(String peerId, boolean canCreateTCPConnections) {
         this.peerId = peerId;
         this.canCreateTCPConnections = canCreateTCPConnections;
     }

@@ -8,26 +8,26 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ModelBuilder {
-    public static PeerInfo buildPeerInfo(String line) {
+    public static Register buildPeerInfo(String line) {
         Map<String, String> f = parseFields(line, "REGISTER");
-        return new PeerInfo(
+        return new Register(
                 f.get("peerId"),
                 Boolean.parseBoolean(f.get("canCreateTCPConnections"))
         );
     }
 
-    public static ConnectionRequestInfo buildConnectionRequestInfo(String line) {
+    public static ConnectionRequest buildConnectionRequestInfo(String line) {
         Map<String, String> f = parseFields(line, "CONNECTION_REQUEST");
-        return new ConnectionRequestInfo(
+        return new ConnectionRequest(
                 f.get("sourcePeerId"),
                 f.get("targetPeerId"),
                 Integer.parseInt(f.get("timeoutMs"))
         );
     }
 
-    public static DataSessionInfo buildDataSessionInfo(String line) {
+    public static StartDataSession buildDataSessionInfo(String line) {
         Map<String, String> f = parseFields(line, "START_DATA_SESSION");
-        return new DataSessionInfo(
+        return new StartDataSession(
                 f.get("sourcePeerId"),
                 f.get("targetPeerId"),
                 Integer.parseInt(f.get("timeoutMs")),

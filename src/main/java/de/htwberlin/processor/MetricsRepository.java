@@ -1,8 +1,8 @@
 package de.htwberlin.processor;
 
-import de.htwberlin.model.ConnectionRequestInfo;
-import de.htwberlin.model.DataSessionInfo;
-import de.htwberlin.model.PeerInfo;
+import de.htwberlin.model.ConnectionRequest;
+import de.htwberlin.model.StartDataSession;
+import de.htwberlin.model.Register;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface MetricsRepository {
      */
     void persist(Object entity);
 
-    List<PeerInfo> findAllPeerInfos();
-    List<ConnectionRequestInfo> findAllConnectionRequests();
-    List<DataSessionInfo> findAllDataSessions();
+    List<Register> findAllPeerInfos();
+    List<ConnectionRequest> findAllConnectionRequests();
+    List<StartDataSession> findAllDataSessions();
 }

@@ -3,8 +3,8 @@ package de.htwberlin.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "connection_request_info")
-public class ConnectionRequestInfo {
+@Table(name = "connection_request")
+public class ConnectionRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,9 +13,9 @@ public class ConnectionRequestInfo {
     private String targetPeerId;
     private int timeoutMs;
 
-    protected ConnectionRequestInfo() {}
+    protected ConnectionRequest() {}
 
-    public ConnectionRequestInfo(String sourcePeerId, String targetPeerId, int timeoutMs) {
+    public ConnectionRequest(String sourcePeerId, String targetPeerId, int timeoutMs) {
         this.sourcePeerId = sourcePeerId;
         this.targetPeerId = targetPeerId;
         this.timeoutMs = timeoutMs;

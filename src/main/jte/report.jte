@@ -1,9 +1,9 @@
 @import java.time.Instant
 @import java.util.List
-@import de.htwberlin.model.ConnectionRequestInfo
-@import de.htwberlin.model.DataSessionInfo
+@import de.htwberlin.model.ConnectionRequest
+@import de.htwberlin.model.StartDataSession
 @import de.htwberlin.model.EventLogEntry
-@import de.htwberlin.model.PeerInfo
+@import de.htwberlin.model.Register
 @import de.htwberlin.visualizer.PeerTimelineRow
 @import de.htwberlin.visualizer.TimelineBar
 @import static de.htwberlin.visualizer.DashboardDemo.full

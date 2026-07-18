@@ -1,10 +1,7 @@
 package de.htwberlin.visualizer;
 
-import de.htwberlin.model.ConnectionRequestInfo;
-import de.htwberlin.model.DataSessionInfo;
-import de.htwberlin.model.EventLogEntry;
-import de.htwberlin.model.EventType;
-import de.htwberlin.model.PeerInfo;
+import de.htwberlin.model.*;
+import de.htwberlin.model.ConnectionRequest;
 import gg.jte.CodeResolver;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
@@ -38,24 +35,24 @@ public class DashboardDemo {
     public static void main(String[] args) throws IOException {
         Instant now = Instant.now();
 
-        List<PeerInfo> registeredPeers = List.of(
-                new PeerInfo("peer-a3f2c9", true),
-                new PeerInfo("peer-991cde", true),
-                new PeerInfo("peer-7d0e11", true),
-                new PeerInfo("peer-bb44aa", false)
+        List<Register> registeredPeers = List.of(
+                new Register("peer-a3f2c9", true),
+                new Register("peer-991cde", true),
+                new Register("peer-7d0e11", true),
+                new Register("peer-bb44aa", false)
         );
 
-        List<ConnectionRequestInfo> connectionRequests = List.of(
-                new ConnectionRequestInfo("peer-a3f2c9", "peer-991cde", 5000),
-                new ConnectionRequestInfo("peer-7d0e11", "peer-bb44aa", 3000)
+        List<ConnectionRequest> connectionRequests = List.of(
+                new ConnectionRequest("peer-a3f2c9", "peer-991cde", 5000),
+                new ConnectionRequest("peer-7d0e11", "peer-bb44aa", 3000)
         );
 
-        List<DataSessionInfo> dataSessions = List.of(
-                new DataSessionInfo("peer-a3f2c9", "peer-991cde", 30000,
+        List<StartDataSession> dataSessions = List.of(
+                new StartDataSession("peer-a3f2c9", "peer-991cde", 30000,
                         now.minus(8, ChronoUnit.MINUTES), null),
-                new DataSessionInfo("peer-7d0e11", "peer-bb44aa", 30000,
+                new StartDataSession("peer-7d0e11", "peer-bb44aa", 30000,
                         now.minus(20, ChronoUnit.MINUTES), now.minus(5, ChronoUnit.MINUTES)),
-                new DataSessionInfo("peer-991cde", "peer-bb44aa", 15000,
+                new StartDataSession("peer-991cde", "peer-bb44aa", 15000,
                         now.minus(3, ChronoUnit.MINUTES), null)
         );
 

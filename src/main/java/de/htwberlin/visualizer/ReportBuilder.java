@@ -1,9 +1,9 @@
 package de.htwberlin.visualizer;
 
-import de.htwberlin.model.ConnectionRequestInfo;
-import de.htwberlin.model.DataSessionInfo;
+import de.htwberlin.model.ConnectionRequest;
+import de.htwberlin.model.StartDataSession;
 import de.htwberlin.model.EventLogEntry;
-import de.htwberlin.model.PeerInfo;
+import de.htwberlin.model.Register;
 import de.htwberlin.persistence.EntityManagerFactory;
 import de.htwberlin.processor.MetricsRepository;
 import gg.jte.CodeResolver;
@@ -27,13 +27,13 @@ public class ReportBuilder {
     private Map<String, Object> collectReportParams() {
         String hubName = "hub-123";
         Instant generatedAt = Instant.now();
-        List<PeerInfo> registeredPeers = this.metricsRepository.findAllPeerInfos();
-        List<ConnectionRequestInfo> connectionRequests = this.metricsRepository.findAllConnectionRequests();
-        List<DataSessionInfo> dataSessions = this.metricsRepository.findAllDataSessions();
+        List<Register> registeredPeers = this.metricsRepository.findAllPeerInfos();
+        List<ConnectionRequest> connectionRequests = this.metricsRepository.findAllConnectionRequests();
+        List<StartDataSession> dataSessions = this.metricsRepository.findAllDataSessions();
         List<EventLogEntry> eventLogs = new ArrayList<>();
 
         Instant measureStart = dataSessions.stream()
-                .map(DataSessionInfo::getStartedAt)
+                .map(StartDataSession::getStartedAt)
                 .min(Comparator.naturalOrder())
                 .orElse(generatedAt);
         Instant measureEnd = dataSessions.stream()
@@ -57,8 +57,8 @@ public class ReportBuilder {
     }
 
     private List<PeerTimelineRow> buildTimelines(
-            List<PeerInfo> peers,
-            List<DataSessionInfo> dataSessions,
+            List<Register> peers,
+            List<StartDataSession> dataSessions,
             Instant measureStart,
             Instant measureEnd
     ) {
@@ -66,9 +66,9 @@ public class ReportBuilder {
         if (totalMs <= 0) return List.of();
 
         List<PeerTimelineRow> peerRows = new ArrayList<>();
-        for (PeerInfo peer : peers) {
+        for (Register peer : peers) {
             List<TimelineBar> bars = new ArrayList<>();
-            for (DataSessionInfo session : dataSessions) {
+            for (StartDataSession session : dataSessions) {
                 if (!session.getSourcePeerId().equals(peer.getPeerId())
                         && !session.getTargetPeerId().equals(peer.getPeerId())) {
                     continue;
