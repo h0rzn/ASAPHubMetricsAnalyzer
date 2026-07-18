@@ -14,9 +14,11 @@
         <class>de.htwberlin.model.NotifyConnectionEnded</class>
 
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:./data/hub_metrics.db"/>
-            <property name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
-            <property name="hibernate.dialect" value="org.hibernate.community.dialect.SQLiteDialect"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/hub_metrics"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.user" value="hub"/>
+            <property name="jakarta.persistence.jdbc.password" value="hub"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.transaction.coordinator_class" value="jdbc"/>
         </properties>

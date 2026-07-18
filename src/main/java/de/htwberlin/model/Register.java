@@ -3,12 +3,15 @@ package de.htwberlin.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "peer_info")
+@Table(name = "register")
 public class Register {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "session_id")
+    private Session session;
     private String peerId;
     private boolean canCreateTCPConnections;
 
@@ -29,5 +32,9 @@ public class Register {
 
     public boolean isCanCreateTCPConnections() {
         return canCreateTCPConnections;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 }

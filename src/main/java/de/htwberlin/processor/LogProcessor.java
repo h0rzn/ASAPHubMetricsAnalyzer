@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,6 +20,7 @@ public class LogProcessor {
     private final InputStream standardInputStream;
     private final InputStream errorInputStream;
     private final MetricsRepository repository;
+    private final Map<String, Session> activeSessions = new HashMap<>();
 
     public void run() throws ExecutionException, InterruptedException {
         System.out.println("processor: run");
@@ -53,8 +56,11 @@ public class LogProcessor {
 
         switch (eventName) {
             case "REGISTER" -> {
-                Register peerInfo = ModelBuilder.buildPeerInfo(line);
-                repository.persist(peerInfo);
+                Register register = ModelBuilder.buildPeerInfo(line);
+                Session session = repository.createSession();
+                register.setSession(session);
+                activeSessions.put(register.getPeerId(), session);
+                repository.persist(register);
             }
             case "CONNECTION_REQUEST" -> {
                 ConnectionRequest requestInfo = ModelBuilder.buildConnectionRequestInfo(line);
@@ -66,6 +72,7 @@ public class LogProcessor {
             }
             case "UNREGISTER" -> {
                 Unregister unregister = ModelBuilder.buildUnregister(line);
+                unregister.setSession(activeSessions.remove(unregister.getPeerId()));
                 repository.persist(unregister);
             }
             case "DISCONNECT" -> {

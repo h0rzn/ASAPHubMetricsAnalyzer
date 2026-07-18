@@ -9,6 +9,9 @@ public class Unregister {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "session_id")
+    private Session session;
     private String peerId;
 
     public Unregister(String peerId) {
@@ -16,4 +19,12 @@ public class Unregister {
     }
 
     public Unregister() {}
+
+    public String getPeerId() {
+        return peerId;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
 }

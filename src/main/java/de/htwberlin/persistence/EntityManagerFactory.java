@@ -1,6 +1,7 @@
 package de.htwberlin.persistence;
 
 import de.htwberlin.model.ConnectionRequest;
+import de.htwberlin.model.Session;
 import de.htwberlin.model.StartDataSession;
 import de.htwberlin.model.Register;
 import de.htwberlin.processor.MetricsRepository;
@@ -29,6 +30,13 @@ public class EntityManagerFactory implements AutoCloseable, MetricsRepository {
         } finally {
             em.close();
         }
+    }
+
+    @Override
+    public Session createSession() {
+        Session session = new Session();
+        persist(session);
+        return session;
     }
 
     @Override

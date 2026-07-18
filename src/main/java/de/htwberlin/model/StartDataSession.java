@@ -60,4 +60,5 @@ public class StartDataSession {
     public Instant getEndedAt() {
         return endedAt;
     }
+
 }

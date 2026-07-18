@@ -1,6 +1,7 @@
 package de.htwberlin.processor;
 
 import de.htwberlin.model.ConnectionRequest;
+import de.htwberlin.model.Session;
 import de.htwberlin.model.StartDataSession;
 import de.htwberlin.model.Register;
 
@@ -18,6 +19,8 @@ public interface MetricsRepository {
      * @param entity
      */
     void persist(Object entity);
+
+    Session createSession();
 
     List<Register> findAllPeerInfos();
     List<ConnectionRequest> findAllConnectionRequests();

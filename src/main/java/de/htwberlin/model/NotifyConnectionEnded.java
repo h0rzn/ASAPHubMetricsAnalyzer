@@ -38,4 +38,5 @@ public class NotifyConnectionEnded {
     public Instant getEndedAt() {
         return endedAt;
     }
+
 }
