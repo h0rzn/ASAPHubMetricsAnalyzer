@@ -36,6 +36,30 @@ public class ModelBuilder {
         );
     }
 
+    public static Unregister buildUnregister(String line) {
+        Map<String, String> f = parseFields(line, "UNREGISTER");
+        return new Unregister(
+                f.get("peerId")
+        );
+    }
+
+    public static Disconnect buildDisconnect(String line) {
+        Map<String, String> f = parseFields(line, "DISCONNECT");
+        return new Disconnect(
+                f.get("sourcePeerId"),
+                f.get("targetPeerId")
+        );
+    }
+
+    public static NotifyConnectionEnded buildNotifyConnectionEnded(String line) {
+        Map<String, String> f = parseFields(line, "NOTIFY_CONNECTION_ENDED");
+        return new NotifyConnectionEnded(
+                f.get("sourcePeerId"),
+                f.get("targetPeerId"),
+                Instant.ofEpochMilli(Long.parseLong(f.get("endedAt")))
+        );
+    }
+
     private static Map<String, String> parseFields(String line, String tag) {
         int start = line.indexOf("[" + tag + "]") + tag.length() + 2;
         int end = line.indexOf("[/" + tag + "]");

@@ -34,21 +34,21 @@ public class EntityManagerFactory implements AutoCloseable, MetricsRepository {
     @Override
     public List<Register> findAllPeerInfos() {
         try (var em = emf.createEntityManager()) {
-            return em.createQuery("FROM PeerInfo", Register.class).getResultList();
+            return em.createQuery("FROM Register", Register.class).getResultList();
         }
     }
 
     @Override
     public List<ConnectionRequest> findAllConnectionRequests() {
         try (var em = emf.createEntityManager()) {
-            return em.createQuery("FROM ConnectionRequestInfo", ConnectionRequest.class).getResultList();
+            return em.createQuery("FROM ConnectionRequest", ConnectionRequest.class).getResultList();
         }
     }
 
     @Override
     public List<StartDataSession> findAllDataSessions() {
         try (var em = emf.createEntityManager()) {
-            return em.createQuery("FROM DataSessionInfo", StartDataSession.class).getResultList();
+            return em.createQuery("FROM StartDataSession", StartDataSession.class).getResultList();
         }
     }
 

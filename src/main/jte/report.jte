@@ -9,9 +9,9 @@
 @import static de.htwberlin.visualizer.DashboardDemo.full
 @import static de.htwberlin.visualizer.DashboardDemo.time
 
-@param List<PeerInfo> registeredPeers
-@param List<ConnectionRequestInfo> connectionRequests
-@param List<DataSessionInfo> dataSessions
+@param List<Register> registeredPeers
+@param List<ConnectionRequest> connectionRequests
+@param List<StartDataSession> dataSessions
 @param List<EventLogEntry> events
 @param List<PeerTimelineRow> peerTimelines
 @param Instant measurementStart
@@ -34,7 +34,7 @@
       <p class="text-gray-400 mb-10">Keine Peers registriert.</p>
     @else
       <div class="flex flex-wrap gap-2 mb-10">
-        @for(PeerInfo peer : registeredPeers)
+        @for(Register peer : registeredPeers)
           <span class="px-3 py-1 text-sm border border-gray-200 rounded-full text-gray-700">
             ${peer.getPeerId()}
             <span class="ml-2 text-xs text-gray-400">TCP: ${peer.isCanCreateTCPConnections()}</span>
@@ -56,7 +56,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          @for(ConnectionRequestInfo req : connectionRequests)
+          @for(ConnectionRequest req : connectionRequests)
             <tr>
               <td class="py-2 pr-6">${req.getSourcePeerId()}</td>
               <td class="py-2 pr-6">${req.getTargetPeerId()}</td>
@@ -82,7 +82,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          @for(DataSessionInfo session : dataSessions)
+          @for(StartDataSession session : dataSessions)
             <tr>
               <td class="py-2 pr-6">${session.getSourcePeerId()}</td>
               <td class="py-2 pr-6">${session.getTargetPeerId()}</td>

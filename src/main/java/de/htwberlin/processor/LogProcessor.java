@@ -1,8 +1,6 @@
 package de.htwberlin.processor;
 
-import de.htwberlin.model.ConnectionRequest;
-import de.htwberlin.model.Register;
-import de.htwberlin.model.StartDataSession;
+import de.htwberlin.model.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -65,6 +63,18 @@ public class LogProcessor {
             case "START_DATA_SESSION" -> {
                 StartDataSession sessionInfo = ModelBuilder.buildDataSessionInfo(line);
                 repository.persist(sessionInfo);
+            }
+            case "UNREGISTER" -> {
+                Unregister unregister = ModelBuilder.buildUnregister(line);
+                repository.persist(unregister);
+            }
+            case "DISCONNECT" -> {
+                Disconnect disconnect = ModelBuilder.buildDisconnect(line);
+                repository.persist(disconnect);
+            }
+            case "NOTIFY_CONNECTION_ENDED" -> {
+                NotifyConnectionEnded notifyConnectionEnded = ModelBuilder.buildNotifyConnectionEnded(line);
+                repository.persist(notifyConnectionEnded);
             }
             default -> System.out.println("Unkown Event: " + line);
         }
