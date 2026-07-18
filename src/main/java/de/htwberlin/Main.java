@@ -1,6 +1,7 @@
 package de.htwberlin;
 
 import de.htwberlin.persistence.EntityManagerFactory;
+import de.htwberlin.processor.LogProcessor;
 
 import java.io.*;
 import java.util.concurrent.ExecutorService;
@@ -16,9 +17,6 @@ public class Main {
 
         PipedOutputStream errorPipedOutputStream = new PipedOutputStream();
         PipedInputStream errorPipedInputStream = new PipedInputStream(errorPipedOutputStream);
-
-        FileOutputStream standardFileOut = new FileOutputStream("standard-out.log");
-        FileOutputStream errorFileOut = new FileOutputStream("error-out.log");
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         EntityManagerFactory emf = new EntityManagerFactory();
@@ -50,7 +48,10 @@ public class Main {
             });
 
             runnerFuture.get();
+            standardPipedOutputStream.close();
+            errorPipedOutputStream.close();
             logProcessorFuture.get();
         }
+        executorService.shutdown();
     }
 }

@@ -140,9 +140,14 @@
           <span class="w-24 text-sm text-gray-600 truncate flex-shrink-0">${row.peerId()}</span>
           <div class="relative flex-1 h-5 bg-gray-100 rounded overflow-visible">
             @for(TimelineBar bar : row.bars())
+            <!--
               <div class="absolute top-1 bottom-1 rounded @if(bar.ongoing())bg-blue-400@else bg-gray-300@endif"
                    style="left: ${bar.leftPercent()}%; width: ${bar.widthPercent()}%;">
               </div>
+            -->
+            <div class="absolute top-1 bottom-1 rounded bg-blue-400"
+               style="left: ${bar.leftPercent()}%; width: ${bar.widthPercent()}%;">
+            </div>
             @endfor
           </div>
         </div>

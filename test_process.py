@@ -1,12 +1,49 @@
-import sys
+import time
 
-# for i in range (3):
-    # print(f"stdout_{i}")
+PEERS = [
+    {"peerId": "peer-alpha", "canCreateTCPConnections": "true"},
+    {"peerId": "peer-beta",  "canCreateTCPConnections": "true"},
+    {"peerId": "peer-gamma", "canCreateTCPConnections": "false"},
+]
 
-# print(f"stderr_{i}", file=sys.stderr)
+CONNECTIONS = [
+    {"source": "peer-alpha", "target": "peer-beta",  "timeoutMs": 100, "durationMs": 100},
+    {"source": "peer-beta",  "target": "peer-gamma", "timeoutMs": 200, "durationMs": 200},
+    {"source": "peer-alpha", "target": "peer-gamma", "timeoutMs": 300, "durationMs": 300},
+]
 
-# print("stdout_last")
+def emit(tag, fields):
+    body = "; ".join(f"{k}={v}" for k, v in fields.items())
+    print(f"[{tag}] {body} [/{tag}]", flush=True)
 
-print("[REGISTER] peerId=myPeerId; canCreateTCPConnections=true; [/REGISTER]")
-print("[CONNECTION_REQUEST] sourcePeerId=mySourcePeer; targetPeerId=myTargetPeer; timeoutMs=100; [/CONNECTION_REQUEST]")
-print("[START_DATA_SESSION] sourcePeerId=mySourcePeer; targetPeerId=myTargetPeer; timeoutMs=100; startedAt=1784284165; endedAt=1784284165; [/START_DATA_SESSION]")
+
+def now():
+    return int(time.time() * 1000)
+
+for peer in PEERS:
+    emit("REGISTER", {
+        "peerId": peer["peerId"],
+        "canCreateTCPConnections": peer["canCreateTCPConnections"]
+    })
+
+for conn in CONNECTIONS:
+    emit("CONNECTION_REQUEST", {
+        "sourcePeerId": conn["source"],
+        "targetPeerId": conn["target"],
+        "timeoutMs":    conn["timeoutMs"],
+    })
+
+    started = now()
+    time.sleep(conn["durationMs"] / 1000)
+    ended = now()
+
+    emit("START_DATA_SESSION", {
+        "sourcePeerId": conn["source"],
+        "targetPeerId": conn["target"],
+        "timeoutMs":    conn["timeoutMs"],
+        "startedAt":    started,
+        "endedAt":      ended,
+    })
+
+for peer in PEERS:
+    emit("UNREGISTER", {"peerId": peer["peerId"]})

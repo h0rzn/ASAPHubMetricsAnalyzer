@@ -1,4 +1,4 @@
-package de.htwberlin;
+package de.htwberlin.processor;
 
 import de.htwberlin.model.ConnectionRequestInfo;
 import de.htwberlin.model.DataSessionInfo;
@@ -33,6 +33,7 @@ public class LogProcessor {
 
         standardHandler.get();
         errorHandler.get();
+        executorService.shutdown();
     }
 
     private void readLines(InputStream inputStream, Consumer<String> lineHandler) {

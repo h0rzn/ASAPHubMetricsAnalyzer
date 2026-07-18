@@ -1,4 +1,4 @@
-package de.htwberlin;
+package de.htwberlin.processor;
 
 import de.htwberlin.model.*;
 

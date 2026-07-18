@@ -1,4 +1,4 @@
-package de.htwberlin;
+package de.htwberlin.processor;
 
 import de.htwberlin.model.ConnectionRequestInfo;
 import de.htwberlin.model.DataSessionInfo;
@@ -27,6 +27,21 @@ class LogProcessorPersistenceTest {
         @Override
         public void persist(Object entity) {
             persisted.add(entity);
+        }
+
+        @Override
+        public List<PeerInfo> findAllPeerInfos() {
+            return List.of();
+        }
+
+        @Override
+        public List<ConnectionRequestInfo> findAllConnectionRequests() {
+            return List.of();
+        }
+
+        @Override
+        public List<DataSessionInfo> findAllDataSessions() {
+            return List.of();
         }
     }
 

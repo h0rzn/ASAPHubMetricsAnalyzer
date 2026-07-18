@@ -73,11 +73,11 @@ public class DashboardDemo {
         Instant measurementEnd = now;
 
         List<PeerTimelineRow> peerTimelines = List.of(
-                new PeerTimelineRow("peer-a3f2c9", List.of(new TimelineBar(16.7, 83.3, true))),
-                new PeerTimelineRow("peer-991cde", List.of(new TimelineBar(20.0, 80.0, true))),
-                new PeerTimelineRow("peer-cc1029", List.of(new TimelineBar(26.7, 40.0, false))),
-                new PeerTimelineRow("peer-7d0e11", List.of(new TimelineBar(33.3, 66.7, true))),
-                new PeerTimelineRow("peer-bb44aa", List.of(new TimelineBar(40.0, 60.0, true)))
+                new PeerTimelineRow("peer-a3f2c9", List.of(new TimelineBar(16.7, 83.3))),
+                new PeerTimelineRow("peer-991cde", List.of(new TimelineBar(20.0, 80.0))),
+                new PeerTimelineRow("peer-cc1029", List.of(new TimelineBar(26.7, 40.0))),
+                new PeerTimelineRow("peer-7d0e11", List.of(new TimelineBar(33.3, 66.7))),
+                new PeerTimelineRow("peer-bb44aa", List.of(new TimelineBar(40.0, 60.0)))
         );
 
         Map<String, Object> params = Map.of(
