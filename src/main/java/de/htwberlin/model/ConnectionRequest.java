@@ -11,11 +11,11 @@ public class ConnectionRequest {
 
     private String sourcePeerId;
     private String targetPeerId;
-    private int timeoutMs;
+    private long timeoutMs;
 
     protected ConnectionRequest() {}
 
-    public ConnectionRequest(String sourcePeerId, String targetPeerId, int timeoutMs) {
+    public ConnectionRequest(String sourcePeerId, String targetPeerId, long timeoutMs) {
         this.sourcePeerId = sourcePeerId;
         this.targetPeerId = targetPeerId;
         this.timeoutMs = timeoutMs;
@@ -33,7 +33,7 @@ public class ConnectionRequest {
         return targetPeerId;
     }
 
-    public int getTimeoutMs() {
+    public long getTimeoutMs() {
         return timeoutMs;
     }
 

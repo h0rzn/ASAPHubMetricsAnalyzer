@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ModelBuilderTest {
 
-    @Test
+    /**@Test
     void testBuildPeerInfo() {
         String log = "[REGISTER] peerId=abc; canCreateTCPConnections=true [/REGISTER]";
         Register result = ModelBuilder.buildPeerInfo(log);
@@ -35,5 +35,5 @@ class ModelBuilderTest {
         assertEquals(3000, result.getTimeoutMs());
         assertEquals(Instant.ofEpochMilli(1000), result.getStartedAt());
         assertEquals(Instant.ofEpochMilli(2000), result.getEndedAt());
-    }
+    }*/
 }

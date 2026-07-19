@@ -19,20 +19,20 @@ public class ModelBuilder {
     public static ConnectionRequest buildConnectionRequestInfo(String line) {
         Map<String, String> f = parseFields(line, "CONNECTION_REQUEST");
         return new ConnectionRequest(
-                f.get("sourcePeerId"),
-                f.get("targetPeerId"),
-                Integer.parseInt(f.get("timeoutMs"))
+                f.get("source"),
+                f.get("target"),
+                Long.parseLong(f.get("timeout"))
         );
     }
 
     public static StartDataSession buildDataSessionInfo(String line) {
         Map<String, String> f = parseFields(line, "START_DATA_SESSION");
         return new StartDataSession(
-                f.get("sourcePeerId"),
-                f.get("targetPeerId"),
-                Integer.parseInt(f.get("timeoutMs")),
-                Instant.ofEpochMilli(Long.parseLong(f.get("startedAt"))),
-                Instant.ofEpochMilli(Long.parseLong(f.get("endedAt")))
+                f.get("source"),
+                f.get("target"),
+                Integer.parseInt(f.get("timeout")),
+                Instant.ofEpochMilli(Long.parseLong(f.get("timeStart"))),
+                Instant.now()
         );
     }
 
@@ -46,17 +46,17 @@ public class ModelBuilder {
     public static Disconnect buildDisconnect(String line) {
         Map<String, String> f = parseFields(line, "DISCONNECT");
         return new Disconnect(
-                f.get("sourcePeerId"),
-                f.get("targetPeerId")
+                f.get("source"),
+                f.get("target")
         );
     }
 
     public static NotifyConnectionEnded buildNotifyConnectionEnded(String line) {
         Map<String, String> f = parseFields(line, "NOTIFY_CONNECTION_ENDED");
         return new NotifyConnectionEnded(
-                f.get("sourcePeerId"),
-                f.get("targetPeerId"),
-                Instant.ofEpochMilli(Long.parseLong(f.get("endedAt")))
+                f.get("source"),
+                f.get("target"),
+                Instant.ofEpochMilli(Long.parseLong(f.get("timeEnd")))
         );
     }
 
@@ -67,10 +67,10 @@ public class ModelBuilder {
         if (inner.isEmpty()) return Map.of();
         return Arrays.stream(inner.split(";"))
                 .map(String::trim)
-                .filter(s -> s.contains("="))
+                .filter(s -> s.contains(":"))
                 .collect(Collectors.toMap(
-                        s -> s.substring(0, s.indexOf('=')).trim(),
-                        s -> s.substring(s.indexOf('=') + 1).trim()
+                        s -> s.substring(0, s.indexOf(':')).trim(),
+                        s -> s.substring(s.indexOf(':') + 1).trim()
                 ));
     }
 }

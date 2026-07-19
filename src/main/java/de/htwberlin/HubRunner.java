@@ -1,9 +1,12 @@
 package de.htwberlin;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.*;
+import net.sharksystem.hub.hubside.*;
 
 public class HubRunner implements AutoCloseable {
     private final ExecutorService executorService;
@@ -62,9 +65,15 @@ public class HubRunner implements AutoCloseable {
     }
 
     public void run() throws Exception {
-        //List.of("java", "-jar", "<path>", "<arg1>");
+        URL hub = getClass().getClassLoader().getResource("ASAPHub.jar");
+        URL asap = getClass().getClassLoader().getResource("ASAPJava.jar");
+
+        String cp = Paths.get(hub.toURI()).toString()
+                + File.pathSeparator
+                + Paths.get(asap.toURI()).toString();
         Process hubProcess = this.runProcess(
-                List.of("python3", "test_process.py")
+                //List.of("python", "test_process.py")
+                List.of("java", "-cp", cp, "net.sharksystem.hub.hubside.ASAPTCPHub")
         );
         this.watchProcess(hubProcess);
     }
@@ -89,4 +98,6 @@ public class HubRunner implements AutoCloseable {
                 new OutputStreamWriter(errorOutputStream, StandardCharsets.UTF_8)
         );
     }
+
+
 }

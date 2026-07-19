@@ -11,10 +11,25 @@
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>24</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>hub</groupId>
+            <artifactId>hub</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/ASAPHub.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>hub</groupId>
+            <artifactId>asap</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/ASAPJava.jar</systemPath>
+        </dependency>
         <dependency>
             <groupId>gg.jte</groupId>
             <artifactId>jte</artifactId>
@@ -93,6 +108,7 @@
                 <configuration>
                     <sourceDirectory>${project.basedir}/src/main/jte</sourceDirectory>
                     <contentType>Html</contentType>
+                    <targetDirectory/>
                 </configuration>
                 <executions>
                     <execution>

@@ -17,7 +17,7 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlite:./data/hub_metrics.db"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
             <property name="hibernate.dialect" value="org.hibernate.community.dialect.SQLiteDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.transaction.coordinator_class" value="jdbc"/>
         </properties>
     </persistence-unit>

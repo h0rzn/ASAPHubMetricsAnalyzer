@@ -52,6 +52,7 @@ public class LogProcessor {
 
     private void handleStandardOut(String line) {
         String eventName = this.extractEvent(line);
+        System.out.println(line);
         if (eventName.isEmpty()) return;
 
         switch (eventName) {
