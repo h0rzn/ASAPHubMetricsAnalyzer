@@ -21,9 +21,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Reads all metrics from the database, generates peer activity information
+ * and renders them to an HTML report via the JTE template engine.
+ */
 public class ReportBuilder {
     private MetricsRepository metricsRepository;
 
+    /**
+     * Queries all metrics from the repository, determines the window
+     * (earliest session start to latest session end) and creates a parameter
+     * map which will be passed the JTE template.
+     */
     private Map<String, Object> collectReportParams() {
         String hubName = "hub-123";
         Instant generatedAt = Instant.now();
@@ -74,7 +83,7 @@ public class ReportBuilder {
                     continue;
                 }
 
-                Instant end = session.getEndedAt();
+                Instant end = session.getEndedAt() != null ? session.getEndedAt() : measureEnd;
 
                 double leftPercent  = (session.getStartedAt().toEpochMilli() - measureStart.toEpochMilli()) * 100.0 / totalMs;
                 double widthPercent = (end.toEpochMilli() - session.getStartedAt().toEpochMilli()) * 100.0 / totalMs;

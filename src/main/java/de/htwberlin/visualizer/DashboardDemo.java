@@ -1,7 +1,6 @@
 package de.htwberlin.visualizer;
 
 import de.htwberlin.model.*;
-import de.htwberlin.model.ConnectionRequest;
 import gg.jte.CodeResolver;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
@@ -93,7 +92,6 @@ public class DashboardDemo {
         TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
 
         StringOutput output = new StringOutput();
-        //templateEngine.render("hub-dashboard.jte", params, output);
         templateEngine.render("report.jte", params, output);
 
         Path outFile = Path.of("report.html");

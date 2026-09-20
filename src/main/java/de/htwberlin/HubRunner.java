@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.concurrent.*;
 import net.sharksystem.hub.hubside.*;
 
+/**
+ * Launches the ASAP Hub as a subprocess and forwards its stdout and stderr
+ * to the provided output streams. The streams are written line-by-line and
+ * prefixed with 'stdout:' and 'stderr:' respectively.
+ */
 public class HubRunner implements AutoCloseable {
     private final ExecutorService executorService;
     private final BufferedWriter standardOutputStreamWriter;
@@ -23,6 +28,10 @@ public class HubRunner implements AutoCloseable {
         return builder.start();
     }
 
+    /**
+     * Reads stdout and stderr of a process in two threads
+     * and blocks until both streams are fully consumed.
+     */
     private void watchProcess(Process process) throws InterruptedException, IOException, ExecutionException {
         InputStream inputStream = process.getInputStream();
         InputStream errorInputStream = process.getErrorStream();
@@ -54,16 +63,20 @@ public class HubRunner implements AutoCloseable {
 
     private void handleOutputLine(String outputLine) throws IOException {
         this.standardOutputStreamWriter.write("stdout: " + outputLine);
-        this.standardOutputStreamWriter.newLine(); // brauchen wir das wirklich?
+        this.standardOutputStreamWriter.newLine();
         this.standardOutputStreamWriter.flush();
     }
 
     private void handleErrorOutputLine(String errorLine) throws IOException {
         this.errorOutputStreamWriter.write("stderr: " + errorLine);
-        this.errorOutputStreamWriter.newLine(); // brauchen wir das wirklich?
+        this.errorOutputStreamWriter.newLine();
         this.errorOutputStreamWriter.flush();
     }
 
+    /**
+     * Builds the classpath from the embedded JAR resources, starts the hub process
+     * and blocks until it exits.
+     */
     public void run() throws Exception {
         URL hub = getClass().getClassLoader().getResource("ASAPHub.jar");
         URL asap = getClass().getClassLoader().getResource("ASAPJava.jar");
@@ -71,8 +84,8 @@ public class HubRunner implements AutoCloseable {
         String cp = Paths.get(hub.toURI()).toString()
                 + File.pathSeparator
                 + Paths.get(asap.toURI()).toString();
+        // For testing without a real hub, replace with: List.of("python", "test_process.py")
         Process hubProcess = this.runProcess(
-                //List.of("python", "test_process.py")
                 List.of("java", "-cp", cp, "net.sharksystem.hub.hubside.ASAPTCPHub")
         );
         this.watchProcess(hubProcess);
@@ -80,7 +93,6 @@ public class HubRunner implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        System.out.println("runner: close");
         this.executorService.shutdownNow();
         this.executorService.awaitTermination(2, TimeUnit.SECONDS);
 

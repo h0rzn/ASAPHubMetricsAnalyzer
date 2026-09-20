@@ -7,6 +7,11 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Stateless utility class that parses structured hub log lines into domain objects.
+ * Each {@code build*} method handles one event type and delegates field extraction
+ * to {@link #parseFields(String, String)}.
+ */
 public class ModelBuilder {
     public static Register buildPeerInfo(String line) {
         Map<String, String> f = parseFields(line, "REGISTER");
@@ -60,6 +65,10 @@ public class ModelBuilder {
         );
     }
 
+    /**
+     * Extracts the content between '[TAG]' and '[/TAG]', splits it by ';',
+     * and tokenizes each entry at ':' into a field-name-to-value map.
+     */
     private static Map<String, String> parseFields(String line, String tag) {
         int start = line.indexOf("[" + tag + "]") + tag.length() + 2;
         int end = line.indexOf("[/" + tag + "]");

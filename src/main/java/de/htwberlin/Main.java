@@ -8,8 +8,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+/**
+ * Connects {@link HubRunner} and {@link LogProcessor}
+ * via piped streams so that the hub's stdout/stderr are forwarded to the
+ * processor. Both components run concurrently in separate
+ * threads. The application terminates once the hub process exits and all output has been
+ * processed.
+ */
 public class Main {
     public static void main(String[] args) throws Exception {
         PipedOutputStream standardPipedOutputStream = new PipedOutputStream();
@@ -26,7 +31,6 @@ public class Main {
                 emf
         );
 
-        System.out.println("init runner");
         try (HubRunner hubRunner = new HubRunner(
                 standardPipedOutputStream,
                 errorPipedOutputStream

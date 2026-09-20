@@ -15,6 +15,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
+/**
+ * Reads the hub's stdout and stderr line by line, extracts event tags,
+ * builds domain objects via {@link ModelBuilder} and persists them through
+ * the provided {@link MetricsRepository}.
+ */
 public class LogProcessor {
     private final ExecutorService executorService;
     private final InputStream standardInputStream;
@@ -23,8 +28,6 @@ public class LogProcessor {
     private final Map<String, Session> activeSessions = new HashMap<>();
 
     public void run() throws ExecutionException, InterruptedException {
-        System.out.println("processor: run");
-
         Future<?> standardHandler = this.executorService.submit(
                 () -> readLines(standardInputStream, this::handleStandardOut)
         );
@@ -50,9 +53,12 @@ public class LogProcessor {
         }
     }
 
+    /**
+     * Dispatches a single log line to the matching {@link ModelBuilder} method
+     * based on the event tag. Unknown events are logged and dropped.
+     */
     private void handleStandardOut(String line) {
         String eventName = this.extractEvent(line);
-        System.out.println(line);
         if (eventName.isEmpty()) return;
 
         switch (eventName) {
@@ -84,7 +90,7 @@ public class LogProcessor {
                 NotifyConnectionEnded notifyConnectionEnded = ModelBuilder.buildNotifyConnectionEnded(line);
                 repository.persist(notifyConnectionEnded);
             }
-            default -> System.out.println("Unkown Event: " + line);
+            default -> System.out.println("Unknown event: " + line);
         }
     }
 
